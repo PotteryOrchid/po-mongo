@@ -75,7 +75,7 @@
       <artifactId>spring-data-elasticsearch</artifactId>
       <version>${elastic.version}</version>
     </dependency>
-    
+
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
