@@ -14,8 +14,10 @@
   <properties>
     <spring.boot.version>2.0.2.RELEASE</spring.boot.version>
     <mongo.version>2.0.7.RELEASE</mongo.version>
+    <elastic.version>3.0.8.RELEASE</elastic.version>
+    <resteasy.version>3.5.1.Final</resteasy.version>
     <lombok.version>1.16.18</lombok.version>
-    <jackson.version>1.9.13</jackson.version>
+    <fastjson.version>1.2.41</fastjson.version>
     <logback.version>4.6</logback.version>
   </properties>
 
@@ -35,7 +37,7 @@
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
+      <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
     <dependency>
@@ -63,22 +65,23 @@
     </dependency>
 
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>net.logstash.logback</groupId>
       <artifactId>logstash-logback-encoder</artifactId>
       <version>${logback.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-elasticsearch</artifactId>
+      <version>${elastic.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>${fastjson.version}</version>
+    </dependency>
+
   </dependencies>
 
 </project>

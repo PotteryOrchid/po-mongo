@@ -11,7 +11,7 @@
           http://www.springframework.org/schema/beans
           http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <context:property-placeholder location="classpath:application.properties"/>
+  <context:property-placeholder location="classpath:mongo.properties"/>
 
   <!-- 定义mongo对象，对应的是mongodb官方jar包中的Mongo，replica-set设置集群副本的ip地址和端口 -->
   <mongo:mongo-client id="mongoClient" replica-set="${mongo.replica.set.address}">
@@ -32,9 +32,9 @@
   </bean>
 
   <!-- 映射转换器，扫描back-package目录下的文件，根据注释，把它们作为mongodb的一个collection的映射 -->
-  <mongo:mapping-converter base-package="com.megvii.insight.photo.jpa"/>
+  <mongo:mapping-converter base-package="com.po.mongo.jpa"/>
 
   <!-- mongodb bean的仓库目录，会自动扫描扩展了MongoRepository接口的接口进行注入 -->
-  <mongo:repositories base-package="com.megvii.insight.photo.repo"/>
+  <mongo:repositories base-package="com.po.mongo.repo"/>
 
 </beans>

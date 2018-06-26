@@ -1,6 +1,5 @@
 package com.po.mongo.init;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -11,14 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class BucketInitRunner implements ApplicationRunner {
 
-  @Autowired
-  BucketInfo bucketInfo;
-
   @Override
   public void run(ApplicationArguments applicationArguments) throws Exception {
+    boolean flag = false;
     // 判断所有Bucket是否都创建成功
-    while (!BucketInfo.hasAllBuckets()) {
-      bucketInfo.createAllBuckets();
+    while (flag) {
       Thread.sleep(15000);
     }
   }

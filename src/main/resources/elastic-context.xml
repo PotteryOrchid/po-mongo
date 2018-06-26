@@ -10,12 +10,12 @@
           http://www.springframework.org/schema/data/elasticsearch
           http://www.springframework.org/schema/data/elasticsearch/spring-elasticsearch-1.0.xsd">
 
-  <context:property-placeholder location="classpath:application.properties"/>
+  <context:property-placeholder location="classpath:elastic.properties" ignore-unresolvable="true"/>
 
   <elasticsearch:repositories base-package="com.megvii.insight.photo.repo"/>
 
-  <elasticsearch:transport-client id="client" cluster-nodes="localhost:9300,someip:9300"
-    cluster-name="elasticsearch" client-transport-sniff="false" client-transport-ping-timeout="5s" client-transport-nodes-sampler-interval="5s" />
+  <elasticsearch:transport-client id="client" cluster-nodes="${elastic.cluster.nodes}"
+    cluster-name="${elastic.cluster.name}"/>
 
   <bean name="elasticsearchTemplate"
     class="org.springframework.data.elasticsearch.core.ElasticsearchTemplate">
