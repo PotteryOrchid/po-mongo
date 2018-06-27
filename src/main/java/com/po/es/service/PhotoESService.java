@@ -10,4 +10,6 @@ public interface PhotoESService {
 
   List<PhotoES> findByName(String name);
 
+  PhotoES savePhoto(PhotoES photoES);
+
 }

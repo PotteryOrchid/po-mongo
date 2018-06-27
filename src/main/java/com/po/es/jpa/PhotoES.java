@@ -1,5 +1,6 @@
 package com.po.es.jpa;
 
+import java.io.Serializable;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -11,13 +12,13 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  */
 @Document(indexName = "photo_test")
 @Data
-public class PhotoES {
+public class PhotoES implements Serializable {
 
   @Id
   @Field(type = FieldType.Keyword, index = false, store = true)
   private String id;
 
-  @Field(type = FieldType.Text, analyzer = "ik", searchAnalyzer = "ik", store = true)
+  @Field(type = FieldType.Text, analyzer = "standard", searchAnalyzer = "standard", store = true)
   private String name;
 
   @Field(type = FieldType.Object)
@@ -29,6 +30,6 @@ public class PhotoES {
   @Field(type = FieldType.Object)
   private Address addr;
 
-  @Field(type = FieldType.Text, analyzer = "ik", searchAnalyzer = "ik", store = true)
+  @Field(type = FieldType.Text, analyzer = "standard", searchAnalyzer = "standard", store = true)
   private String cmnt;
 }

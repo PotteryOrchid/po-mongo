@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 /**
  * Created by ZJ on 26/06/2018.
  */
-//@PropertySource({"classpath:mongo.properties", "classpath:elastic.properties"})
+@PropertySource({"classpath:application.properties"})
 @ImportResource(locations = {"classpath:mongo-context.xml", "classpath:elastic-context.xml"})
 @Configuration
 @EnableAutoConfiguration
