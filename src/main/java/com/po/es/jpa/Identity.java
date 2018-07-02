@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Data
 public class Identity implements Serializable {
 
-  @Field(type = FieldType.Text, analyzer = "standard", searchAnalyzer = "standard", store = true)
+  @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word", store = true)
   private String sfz;
 
   @Field(type = FieldType.Text, analyzer = "standard", searchAnalyzer = "standard", store = true)

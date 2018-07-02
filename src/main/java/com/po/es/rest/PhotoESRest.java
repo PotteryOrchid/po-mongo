@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +29,13 @@ public class PhotoESRest {
     return photoESService.findByName(name);
   }
 
+  @RequestMapping(value = "/identity/{sfz}", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public List<PhotoES> findBySfz(@PathVariable("sfz") String sfz) {
+    return photoESService.findBySfz(sfz);
+  }
+
   @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-  public PhotoES insert(PhotoES photoES) {
+  public String insert(@RequestBody PhotoES photoES) {
     return photoESService.savePhoto(photoES);
   }
 

@@ -1,17 +1,17 @@
-package com.po.es.service;
+package com.po.es.repo;
 
 import com.po.es.jpa.PhotoES;
 import java.util.List;
 
 /**
- * Created by ZJ on 26/06/2018.
+ * Created by ZJ on 28/06/2018.
  */
-public interface PhotoESService {
+public interface PhotoESRepoTemp {
 
   List<PhotoES> findByName(String name);
 
   List<PhotoES> findBySfz(String sfz);
 
-  String savePhoto(PhotoES photoES);
+  String savePhotoES(PhotoES photoES);
 
 }

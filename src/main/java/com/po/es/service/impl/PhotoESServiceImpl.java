@@ -24,19 +24,24 @@ public class PhotoESServiceImpl implements PhotoESService {
 
   @Override
   public List<PhotoES> findByName(String name) {
-    MatchQueryBuilder queryBuilder = QueryBuilders.matchQuery("name", name);
-    Iterator<PhotoES> iterator = photoESRepo.search(queryBuilder).iterator();
-    List<PhotoES> list = new ArrayList<>();
-
-    while (iterator.hasNext()) {
-      list.add(iterator.next());
-    }
-
-    return list;
+    return photoESRepo.findByName(name);
   }
 
   @Override
-  public PhotoES savePhoto(PhotoES photoES) {
-    return photoESRepo.save(photoES);
+  public List<PhotoES> findBySfz(String sfz) {
+//    MatchQueryBuilder queryBuilder = QueryBuilders.matchQuery("identity.sfz", sfz);
+//    Iterator<PhotoES> iterator = photoESRepo.search(queryBuilder).iterator();
+//    List<PhotoES> list = new ArrayList<>();
+//
+//    while (iterator.hasNext()) {
+//      list.add(iterator.next());
+//    }
+
+    return photoESRepo.findBySfz(sfz);
+  }
+
+  @Override
+  public String savePhoto(PhotoES photoES) {
+    return photoESRepo.savePhotoES(photoES);
   }
 }
