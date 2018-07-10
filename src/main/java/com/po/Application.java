@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
  * Created by ZJ on 26/06/2018.
  */
 @PropertySource({"classpath:application.properties"})
-@ImportResource(locations = {"classpath:mongo-context-replica.xml", "classpath:elastic-context.xml"})
+@ImportResource(locations = {"classpath:mongo-context.xml", "classpath:elastic-context.xml"})
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {"com.po.es", "com.po.mongo"})
