@@ -12,7 +12,7 @@
 
   <context:property-placeholder location="classpath:elastic.properties" ignore-unresolvable="true"/>
 
-  <elasticsearch:repositories base-package="com.megvii.insight.photo.repo"/>
+  <elasticsearch:repositories base-package="com.po.es.repo"/>
 
   <elasticsearch:transport-client id="client" cluster-nodes="${elastic.cluster.nodes}"
     cluster-name="${elastic.cluster.name}"/>
