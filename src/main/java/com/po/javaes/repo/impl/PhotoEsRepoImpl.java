@@ -3,7 +3,6 @@ package com.po.javaes.repo.impl;
 import com.alibaba.fastjson.JSON;
 import com.po.javaes.client.EsClient;
 import com.po.javaes.doc.PhotoEs;
-import com.po.javaes.exception.NodesEmptyException;
 import com.po.javaes.repo.PhotoEsRepo;
 import com.po.javaes.vo.SearchByConditionReq;
 import java.io.IOException;
@@ -37,38 +36,31 @@ public class PhotoEsRepoImpl implements PhotoEsRepo {
   @Override
   public boolean createIndex(String index, String type) {
     TransportClient client = null;
-    try {
-      client = EsClient.getEsClient();
+    client = new EsClient().getEsClient();
 
-      IndicesExistsResponse indicesExistsResponse = client.admin().indices()
-          .exists(new IndicesExistsRequest().indices(index)).actionGet();
+    IndicesExistsResponse indicesExistsResponse = client.admin().indices()
+        .exists(new IndicesExistsRequest().indices(index)).actionGet();
 
-      if (indicesExistsResponse.isExists()) {
-        PutMappingResponse putMappingResponse = client.admin().indices().preparePutMapping(index)
-            .setType(type).setSource(this.getIndexBuilder(type)).get();
-        return putMappingResponse.isAcknowledged();
-      } else {
-        CreateIndexResponse createIndexResponse = client.admin().indices().prepareCreate(index)
-            .addMapping(type, this.getIndexBuilder(type)).get();
-        return createIndexResponse.isAcknowledged();
-      }
-    } catch (NodesEmptyException e) {
-      e.printStackTrace();
+    if (indicesExistsResponse.isExists()) {
+      PutMappingResponse putMappingResponse = client.admin().indices().preparePutMapping(index)
+          .setType(type).setSource(this.getIndexBuilder(type)).get();
+      return putMappingResponse.isAcknowledged();
+    } else {
+      CreateIndexResponse createIndexResponse = client.admin().indices().prepareCreate(index)
+          .addMapping(type, this.getIndexBuilder(type)).get();
+      return createIndexResponse.isAcknowledged();
     }
-    return false;
   }
 
   @Override
   public boolean deleteIndex(String index) {
     TransportClient client = null;
     try {
-      client = EsClient.getEsClient();
+      client = new EsClient().getEsClient();
 
       DeleteIndexResponse deleteIndexResponse = client.admin().indices().prepareDelete(index).get();
 
       return deleteIndexResponse.isAcknowledged();
-    } catch (NodesEmptyException e) {
-      e.printStackTrace();
     } catch (ElasticsearchException exception) {
       if (exception.status() == RestStatus.NOT_FOUND) {
         return true;
@@ -83,32 +75,27 @@ public class PhotoEsRepoImpl implements PhotoEsRepo {
 
     List<PhotoEs> resLis = new LinkedList<>();
 
-    try {
-      if (req.getAlbumCoreIds().length <= 0) {
-        return resLis;
-      }
-      client = EsClient.getEsClient();
+    if (req.getAlbumCoreIds().length <= 0) {
+      return resLis;
+    }
+    client = new EsClient().getEsClient();
 
-      int from = (req.getPageNo() - 1) * req.getPageSize();
-      //System.out.println("==========4:" + System.currentTimeMillis());
-      SearchResponse searchResponse = client.prepareSearch(index).setQuery(getSearchBuilder(req))
-          .setFrom(from).setSize(req.getPageSize() == 0 ? 10 : req.getPageSize())
-          .setTimeout(new TimeValue(60, TimeUnit.SECONDS)).get();
-      //System.out.println("==========5:" + System.currentTimeMillis());
-      SearchHits hits = searchResponse.getHits();
-      if (null != hits) {
-        SearchHit[] hits1 = hits.getHits();
-        for (SearchHit s : hits1) {
-          PhotoEs p = JSON.parseObject(s.getSourceAsString(), PhotoEs.class);
-          p.setId(s.getId());
-          resLis.add(p);
-        }
-
-        return resLis;
+    int from = (req.getPageNo() - 1) * req.getPageSize();
+    //System.out.println("==========4:" + System.currentTimeMillis());
+    SearchResponse searchResponse = client.prepareSearch(index).setQuery(getSearchBuilder(req))
+        .setFrom(from).setSize(req.getPageSize() == 0 ? 10 : req.getPageSize())
+        .setTimeout(new TimeValue(60, TimeUnit.SECONDS)).get();
+    //System.out.println("==========5:" + System.currentTimeMillis());
+    SearchHits hits = searchResponse.getHits();
+    if (null != hits) {
+      SearchHit[] hits1 = hits.getHits();
+      for (SearchHit s : hits1) {
+        PhotoEs p = JSON.parseObject(s.getSourceAsString(), PhotoEs.class);
+        p.setId(s.getId());
+        resLis.add(p);
       }
 
-    } catch (NodesEmptyException e) {
-      e.printStackTrace();
+      return resLis;
     }
 
     return resLis;

@@ -11,10 +11,17 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
  */
 public class EsClient {
 
-  public static TransportClient getEsClient() throws NodesEmptyException {
+  private static TransportClient client;
+
+  static {
     if (EsConfig.getClusterNodes() == null || "".equals(EsConfig.getClusterNodes())) {
-      throw new NodesEmptyException();
+      try {
+        throw new NodesEmptyException();
+      } catch (NodesEmptyException e) {
+        e.printStackTrace();
+      }
     }
+
     Settings settings = Settings.builder()
         .put("client.transport.sniff", true)
         .put("cluster.name", EsConfig.getClusterName())
@@ -22,11 +29,15 @@ public class EsClient {
         .put("client.transport.nodes_sampler_interval", "10s")
         .build();
 
-    return new PreBuiltTransportClient(settings)
+    client = new PreBuiltTransportClient(settings)
         .addTransportAddresses(EsConfig.getEsAdresses());
   }
 
-  public static void closeEsClient(TransportClient transportClient) {
+  public final TransportClient getEsClient() {
+    return EsClient.client;
+  }
+
+  public void closeEsClient(TransportClient transportClient) {
     if (null != transportClient) {
       transportClient.close();
     }
